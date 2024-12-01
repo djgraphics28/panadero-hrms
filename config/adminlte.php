@@ -155,7 +155,7 @@ return [
     'layout_topnav' => null,
     'layout_boxed' => null,
     'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
+    'layout_fixed_navbar' => true,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
 
@@ -257,10 +257,10 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
-    'register_url' => 'register',
+    'register_url' => null,
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
     'profile_url' => false,
@@ -318,6 +318,28 @@ return [
         [
             'text' => 'Dashboard',
             'url' => 'dashboard',
+        ],
+        [
+            'text' => 'Administration',
+            'icon' => 'fas fa-fw fa-circle',
+            'submenu' => [
+                [
+                    'text' => 'View Branches',
+                    'url' => '#',
+                ],
+                [
+                    'text' => 'View Departments',
+                    'url' => '#',
+                ],
+                [
+                    'text' => 'View Designations',
+                    'url' => '#',
+                ],
+                [
+                    'text' => 'View Employee Statuses',
+                    'url' => '#',
+                ],
+            ],
         ],
         [
             'text' => 'Employee Management',
@@ -462,7 +484,7 @@ return [
             ],
         ],
         [
-            'text' => 'Compliance and Reporting',
+            'text' => 'Compliance & Reporting',
             'icon' => 'fas fa-fw fa-circle',
             'submenu' => [
                 [
