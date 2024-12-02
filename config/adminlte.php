@@ -325,19 +325,19 @@ return [
             'submenu' => [
                 [
                     'text' => 'View Branches',
-                    'url' => '#',
+                    'route' => 'branches',
                 ],
                 [
                     'text' => 'View Departments',
-                    'url' => '#',
+                    'route' => 'departments',
                 ],
                 [
                     'text' => 'View Designations',
-                    'url' => '#',
+                    'route' => 'designations',
                 ],
                 [
                     'text' => 'View Employee Statuses',
-                    'url' => '#',
+                    'route' => 'employee-statuses',
                 ],
             ],
         ],
@@ -347,7 +347,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'View Employees',
-                    'url' => '#',
+                    'route' => 'employees',
                 ],
                 [
                     'text' => 'Add New Employee',
@@ -674,12 +674,17 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                    'asset' => true,
+                    'location' => 'vendor/sweetalert2/sweetalert2.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/sweetalert2/sweetalert2.min.css',
                 ],
             ],
         ],
@@ -745,5 +750,5 @@ return [
     |
     */
 
-    'livewire' => false,
+    'livewire' => true,
 ];
