@@ -111,7 +111,7 @@ return [
 
     'preloader' => [
         'enabled' => true,
-        'mode' => 'fullscreen',
+        'mode' => 'cwrapper',
         'img' => [
             'path' => 'assets/images/logo.png',
             'alt' => 'PanaderoBakeshop Preloader Image',

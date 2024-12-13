@@ -43,16 +43,19 @@ class DesignationComponent extends Component
     {
         $this->reset(['name', 'designationId', 'isEdit']);
         $this->dispatch('closeModal');
+        $this->resetErrorBag();
     }
 
     public function openCreateModal()
     {
+        $this->resetErrorBag();
         $this->reset(['name', 'designationId', 'isEdit']);
         $this->dispatch('openModal');
     }
 
     public function openEditModal($id)
     {
+        $this->resetErrorBag();
         $this->designationId = $id;
         $this->name = Designation::findOrFail($id)->name;
         $this->isEdit = true;

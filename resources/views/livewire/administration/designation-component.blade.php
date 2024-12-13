@@ -1,4 +1,9 @@
 <div>
+
+    @section('preloader')
+        <i class="fas fa-4x fa-spin fa-spinner text-secondary"></i>
+        <h4 class="mt-4 text-dark">Loading</h4>
+    @stop
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
