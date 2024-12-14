@@ -3,7 +3,7 @@
 {{-- Extend and customize the browser title --}}
 
 @section('title')
-    {{ config('name') }}
+    {{ config('app.name') }}
     @hasSection('subtitle')
         | @yield('subtitle')
     @endif
