@@ -3,7 +3,7 @@
 {{-- Extend and customize the browser title --}}
 
 @section('title')
-    {{ config('adminlte.title') }}
+    {{ config('name') }}
     @hasSection('subtitle')
         | @yield('subtitle')
     @endif
