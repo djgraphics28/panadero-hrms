@@ -6,6 +6,9 @@ use Livewire\Component;
 use App\Models\Employee;
 use Livewire\WithPagination;
 use App\Imports\EmployeeImport;
+use App\Models\Department;
+use App\Models\Designation;
+use App\Models\EmployeeStatus;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class EmployeeComponent extends Component
@@ -26,23 +29,36 @@ class EmployeeComponent extends Component
     protected $listeners = ['delete'];
 
     protected $rules = [
-        'employeeData.employee_number' => 'required|string|unique:employees,employee_number',
         'employeeData.first_name' => 'required|string|max:255',
         'employeeData.middle_name' => 'nullable|string|max:255',
         'employeeData.last_name' => 'required|string|max:255',
         'employeeData.suffix' => 'nullable|string|max:255',
-        'employeeData.gender' => 'required|in:Male,Female',
+        // 'employeeData.gender' => 'required|in:Male,Female',
         'employeeData.birth_date' => 'nullable|date',
         'employeeData.contact_number' => 'nullable|string|max:255',
         'employeeData.address' => 'nullable|string|max:255',
-        'employeeData.civil_status' => 'required|in:Single,Married,Widowed,Separated,Divorced',
+        // 'employeeData.civil_status' => 'required|in:Single,Married,Widowed,Separated,Divorced',
         'employeeData.date_hired' => 'nullable|date',
         'employeeData.regularization_date' => 'nullable|date',
         'employeeData.department_id' => 'nullable|exists:departments,id',
         'employeeData.designation_id' => 'nullable|exists:designations,id',
         'employeeData.employee_status_id' => 'nullable|exists:employee_statuses,id',
     ];
+    public $employeeStatuses; // To store the statuses
+    public $designations;  // To store the designations
+    public $departments;  // To store the departments
 
+    public function mount()
+    {
+        // Fetch all employee statuses from the employee_statuses table
+        $this->employeeStatuses = EmployeeStatus::all();
+        $this->designations = Designation::all();
+        $this->departments = Department::all();
+          // If the modal is for creating a new employee
+        if (!$this->isEdit) {
+            $this->employeeData['employee_number'] = $this->generateEmployeeNumber();
+        }
+    }
     public function updatingSearch()
     {
         $this->resetPage();
@@ -62,7 +78,13 @@ class EmployeeComponent extends Component
 
     public function openCreateModal()
     {
+        // Reset the necessary properties
         $this->reset(['employeeData', 'employeeId', 'isEdit']);
+        
+        // Generate the employee number when opening the modal
+        $this->employeeData['employee_number'] = $this->generateEmployeeNumber();
+    
+        // Dispatch event to show the modal
         $this->dispatch('openModal');
     }
 
@@ -77,18 +99,28 @@ class EmployeeComponent extends Component
 
     public function save()
     {
-        $this->validate();
-
+        // Validate the input data
+        $this->validate([
+            'employeeData.employee_number' => 'required|unique:employees,employee_number,' . ($this->isEdit ? $this->employeeId : 'NULL') . '|max:255',
+            'employeeData.first_name' => 'required|max:255',
+            'employeeData.last_name' => 'required|max:255',
+            // Add other fields and rules...
+        ]);
+    
         if ($this->isEdit) {
+            // Update existing employee if editing
             Employee::findOrFail($this->employeeId)->update($this->employeeData);
             $this->alert('success', 'Employee updated successfully!');
         } else {
+            // Create new employee if not editing
             Employee::create($this->employeeData);
             $this->alert('success', 'Employee created successfully!');
         }
-
+    
+        // Close the modal after save
         $this->dispatch('closeModal');
     }
+    
 
     public function openImportModal()
     {
@@ -146,5 +178,18 @@ class EmployeeComponent extends Component
             ->paginate(10);
 
         return view('livewire.employees.employee-component', compact('employees'));
+    }
+
+
+    public function generateEmployeeNumber()
+    {
+        // Example: generate the employee number based on the latest one in the database
+        $latestEmployee = Employee::orderBy('employee_number', 'desc')->first();
+        $lastEmployeeNumber = $latestEmployee ? (int) substr($latestEmployee->employee_number, -4) : 0;
+    
+        // Increment the last employee number, e.g., EMP-0001, EMP-0002
+        $newEmployeeNumber = str_pad($lastEmployeeNumber + 1, 4, '0', STR_PAD_LEFT);
+    
+        return 'EMP-' . $newEmployeeNumber;
     }
 }

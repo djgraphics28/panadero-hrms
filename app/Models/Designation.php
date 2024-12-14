@@ -11,7 +11,7 @@ class Designation extends Model
     use HasFactory;
 
     protected $guarded = [];
-
+    protected $fillable = ['name']; 
     /**
      * Get all of the employees for the Designation
      *

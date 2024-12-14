@@ -11,7 +11,8 @@ class Department extends Model
     use HasFactory;
 
     protected $guarded = [];
-
+    protected $fillable = ['name']; 
+    
     public function branches()
     {
         return $this->belongsToMany(Branch::class, 'branch_department')->withTimestamps();
