@@ -8,7 +8,7 @@ use App\Livewire\Administration\DesignationComponent;
 use App\Livewire\Administration\EmployeeStatusComponent;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Auth::routes();
