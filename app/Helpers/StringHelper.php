@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\Designation;
+use App\Models\EmployeeStatus;
 use Illuminate\Support\Carbon;
 
 class StringHelper
@@ -52,7 +54,7 @@ class StringHelper
         return strlen($string) > $length ? substr($string, 0, $length) . $end : $string;
     }
 
-     /**
+    /**
      * Convert a date string from 'd/m/Y' format to 'Y-m-d' format.
      *
      * @param  string  $date
@@ -66,4 +68,36 @@ class StringHelper
         // Return the date in 'Y-m-d' format
         return $parsedDate ? $parsedDate->format('Y-m-d') : null;
     }
+
+    public static function convertDesignationToId(string $string): ?string
+    {
+        $designation = Designation::where('name', $string)->first();
+        $designationId = $designation ? $designation->id : null;
+        return $designationId;
+    }
+
+    public static function convertEmployeeStatusToId(string $string): ?string
+    {
+        $status = EmployeeStatus::where('name', $string)->first();
+        $statusId = $status ? $status->id : null;
+        return $statusId;
+    }
+
+    public static function convertCivilStatusAbreviationToFullName(string $string): ?string
+    {
+        switch ($string) {
+            case 'S':
+            case 'Single':
+                return 'Single';
+            case 'M':
+                return 'Married';
+            case 'D':
+                return 'Divorced';
+            case 'W':
+                return 'Widowed';
+            default:
+                return null;
+        }
+    }
+
 }
