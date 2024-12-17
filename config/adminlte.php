@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'HRMS',
+    'title' => env('APP_NAME', 'HRMS'),
     'title_prefix' => '',
     'title_postfix' => '',
 
